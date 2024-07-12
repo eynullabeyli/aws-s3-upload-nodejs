@@ -20,10 +20,11 @@ The following tools were used in this project:
 - [Node.js](https://nodejs.org/en/)
 - [S3Client](https://www.npmjs.com/package/s3client)
 - [Express.js](https://www.npmjs.com/package/express)
+- [TypeScript](https://www.typescriptlang.org/)
 
 ## :checkered_flag: Starting ##
 
-Note: You should install the nodemon package globally
+Note: You should install the pnpm package globally
 ```bash
 # Clone this project
 $ git clone https://github.com/eynullabeyli/aws-s3-upload-nodejs
@@ -35,7 +36,7 @@ $ cd aws-s3-upload-nodejs
 $ pnpm i
 
 # Run the project
-$ pnpm nodemon server.js
+$ pnpm run dev
 
 # The server will initialize in the <http://localhost:3000>
 ```
