@@ -1,20 +1,21 @@
-const express = require('express');
-const multer = require('multer');
-const fs = require('fs');
-const { S3Client } = require('@aws-sdk/client-s3');
-const { Upload } = require('@aws-sdk/lib-storage');
-const readline = require('readline');
-const path = require('path');
-const mime = require('mime-types');
+import express, { Request, Response } from 'express';
+import multer, { FileFilterCallback } from 'multer';
+import fs from 'fs';
+import { S3Client } from '@aws-sdk/client-s3';
+import { Upload } from '@aws-sdk/lib-storage';
+import readline from 'readline';
+import path from 'path';
+import mime from 'mime-types';
+import dotenv from 'dotenv';
 
-// Load environment variables from a .env file (create this file with your environment variables)
-require('dotenv').config();
+// Load environment variables from a .env file
+dotenv.config();
 
 // AWS credentials from environment variables
-const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
-const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
-const bucketName = process.env.AWS_BUCKET_NAME;
-const region = process.env.AWS_REGION;
+const accessKeyId = process.env.AWS_ACCESS_KEY_ID || '';
+const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY || '';
+const bucketName = process.env.AWS_BUCKET_NAME || '';
+const region = process.env.AWS_REGION || '';
 
 // Initialize S3 client
 const s3Client = new S3Client({
@@ -34,7 +35,7 @@ const upload = multer({
   limits: {
     fileSize: 5 * 1024 * 1024, // 5 MB size limit
   },
-  fileFilter: (req, file, cb) => {
+  fileFilter: (req: Request, file: Express.Multer.File, cb: FileFilterCallback) => {
     const filetypes = /jpeg|jpg|png|pdf/;
     const mimetype = filetypes.test(file.mimetype);
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
@@ -51,7 +52,7 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
-app.post('/upload', upload.single('file'), async (req, res) => {
+app.post('/upload', upload.single('file'), async (req: Request, res: Response) => {
   const file = req.file;
 
   if (!file) {
@@ -77,10 +78,12 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     });
 
     upload.on('httpUploadProgress', (progress) => {
-      const percentage = Math.round((progress.loaded / progress.total) * 100);
-      readline.clearLine(process.stdout, 0);
-      readline.cursorTo(process.stdout, 0, null);
-      process.stdout.write(`Upload Progress: ${percentage}%`);
+      if (progress.loaded !== undefined && progress.total !== undefined) {
+        const percentage = Math.round((progress.loaded / progress.total) * 100);
+        readline.clearLine(process.stdout, 0);
+        readline.cursorTo(process.stdout, 0, 0);
+        process.stdout.write(`Upload Progress: ${percentage}%`);
+      }
     });
 
     await upload.done();
@@ -95,7 +98,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     res.status(200).send(`File uploaded successfully. Public URL: ${publicUrl}`);
   } catch (err) {
     rl.close();
-    res.status(500).send(`Error uploading file: ${err.message}`);
+    res.status(500).send(`Error uploading file: ${(err as Error).message}`);
   }
 });
 
