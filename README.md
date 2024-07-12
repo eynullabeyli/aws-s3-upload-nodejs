@@ -42,7 +42,7 @@ $ pnpm i
 # Run the project
 $ pnpm run dev
 
-# The server will initialize in the <http://localhost:3000>
+# The server will initialize in the <http://localhost:3001>
 ```
 
 &#xa0;
