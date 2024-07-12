@@ -23,6 +23,7 @@ The following tools were used in this project:
 
 ## :checkered_flag: Starting ##
 
+Note: You should install the nodemon package globally
 ```bash
 # Clone this project
 $ git clone https://github.com/eynullabeyli/aws-s3-upload-nodejs
