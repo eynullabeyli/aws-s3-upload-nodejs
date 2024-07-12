@@ -26,6 +26,10 @@ The following tools were used in this project:
 
 Note: You should install the pnpm package globally
 ```bash
+$ npm install -g pnpm
+```
+
+```bash
 # Clone this project
 $ git clone https://github.com/eynullabeyli/aws-s3-upload-nodejs
 
