@@ -7,10 +7,6 @@
   <img alt="Repository size" src="https://img.shields.io/github/repo-size/eynullabeyli/aws-s3-upload-nodejs?color=56BEB8">
 </p>
 
-<h4 align="center"> 
-	🚧  Aws S3 Upload Nodejs 🚀 Under construction...  🚧
-</h4> 
-
 <hr>
 
 ## :rocket: Technologies ##
